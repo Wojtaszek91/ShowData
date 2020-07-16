@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using ShowData.Data;
 using ShowData.Repository;
 using ShowData.Repository.IRepository;
+using AutoMapper;
+using ShowData.Mappings;
 
 namespace ShowData
 {
@@ -33,6 +35,7 @@ namespace ShowData
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddScoped<IShowModelRepository, ShowModelRepository>();
+            services.AddAutoMapper(typeof(ShowMapper));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
