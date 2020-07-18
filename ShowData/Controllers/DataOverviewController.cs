@@ -14,6 +14,7 @@ namespace ShowData.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    //[ApiExplorerSettings(GroupName = "DataOverviewApiSpec")]
     public class DataOverviewController : Controller
     {
         private readonly IDataOverviewRepository _dataOverviewRepo;
@@ -72,7 +73,7 @@ namespace ShowData.Controllers
         /// <param name="dataOverviewDto">Params requires to create DataOverview</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult CreateDataOverview([FromBody] DataOverviewDto dataOverviewDto)
+        public IActionResult CreateDataOverview([FromBody] DataOverviewCreateDto dataOverviewDto)
         {
             if (dataOverviewDto == null)
             {
@@ -107,7 +108,7 @@ namespace ShowData.Controllers
         /// <param name="dataOverviewDto">Required params to build DataOverview</param>
         /// <returns></returns>
         [HttpPatch("{dataOverviewId:int}", Name = "UpdateDataOverview")]
-        public IActionResult UpdateDataOverview(int dataOverviewId, [FromBody] DataOverviewDto dataOverviewDto)
+        public IActionResult UpdateDataOverview(int dataOverviewId, [FromBody] DataOverviewUpdateDto dataOverviewDto)
         {
             if (dataOverviewDto == null || dataOverviewId != dataOverviewDto.Id)
             {

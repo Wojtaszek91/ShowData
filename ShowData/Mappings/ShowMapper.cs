@@ -13,6 +13,11 @@ namespace ShowData.Mappings
         public ShowMapper()
         {
             CreateMap<ShowModel, ShowModelDto>().ReverseMap();
+            CreateMap<ShowModel, ShowModelUpdateDto>().ReverseMap();
+            CreateMap<ShowModel, ShowModelUpdateDto>().ReverseMap();
+            CreateMap<DataOverview, DataOverviewDto>().ReverseMap();
+            CreateMap<DataOverview, DataOverviewUpdateDto>().ReverseMap();
+            CreateMap<DataOverview, DataOverviewCreateDto>().ReverseMap();
         }
     }
 }

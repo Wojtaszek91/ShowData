@@ -14,6 +14,7 @@ namespace ShowData.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+   // [ApiExplorerSettings(GroupName = "ShowDataApiSpec")]
     public class ShowModelController : Controller
     {
         private readonly IShowModelRepository _showModelRepo;
@@ -72,7 +73,7 @@ namespace ShowData.Controllers
         /// <param name="showModelDto">Params requires to create ShowModel</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult CreateShowModel([FromBody] ShowModelDto showModelDto)
+        public IActionResult CreateShowModel([FromBody] ShowModelUpdateDto showModelDto)
         {
             if(showModelDto == null)
             {
@@ -107,7 +108,7 @@ namespace ShowData.Controllers
         /// <param name="showModelDto">Required params to build ShowModel</param>
         /// <returns></returns>
         [HttpPatch("{showModelId:int}", Name = "UpdateShowModel")]
-        public IActionResult UpdateShowModel(int showModelId, [FromBody] ShowModelDto showModelDto)
+        public IActionResult UpdateShowModel(int showModelId, [FromBody] ShowModelUpdateDto showModelDto)
         {
             if(showModelDto == null || showModelId != showModelDto.Id)
             {

@@ -4,6 +4,48 @@
         <name>ShowData</name>
     </assembly>
     <members>
+        <member name="M:ShowData.Controllers.DataOverviewController.GetDataOverviews">
+            <summary>
+            Get list of ShowData model
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.DataOverviewController.GetDataOverview(System.Int32)">
+            <summary>
+            Get individual DataOverview
+            </summary>
+            <param name="dataOverviewId">Id of specific DataOverview</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.DataOverviewController.CreateDataOverview(ShowData.Model.DTO.DataOverviewCreateDto)">
+            <summary>
+            Creates a DataOverview
+            </summary>
+            <param name="dataOverviewDto">Params requires to create DataOverview</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.DataOverviewController.UpdateDataOverview(System.Int32,ShowData.Model.DTO.DataOverviewUpdateDto)">
+            <summary>
+            Updates DataOverview in database
+            </summary>
+            <param name="dataOverviewId">Id of specific DataOverview to update</param>
+            <param name="dataOverviewDto">Required params to build DataOverview</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.DataOverviewController.DeleteDataOverview(System.Int32,ShowData.Model.DTO.DataOverviewDto)">
+            <summary>
+            Deletes DataOverview from database
+            </summary>
+            <param name="dataOverviewId">Id of DataOverview to delete</param>
+            <param name="dataOverviewDto">Required params of DataOverview what should be deleted</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.DataOverviewV2Controller.GetDataOverviews">
+            <summary>
+            Get list of ShowData model
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:ShowData.Controllers.ShowModelController.GetShowModels">
             <summary>
             Get list of ShowData model
@@ -17,14 +59,14 @@
             <param name="showModelId">Id of specific ShowModel</param>
             <returns></returns>
         </member>
-        <member name="M:ShowData.Controllers.ShowModelController.CreateShowModel(ShowData.Model.DTO.ShowModelDto)">
+        <member name="M:ShowData.Controllers.ShowModelController.CreateShowModel(ShowData.Model.DTO.ShowModelUpdateDto)">
             <summary>
             Creates a ShowModel
             </summary>
             <param name="showModelDto">Params requires to create ShowModel</param>
             <returns></returns>
         </member>
-        <member name="M:ShowData.Controllers.ShowModelController.UpdateShowModel(System.Int32,ShowData.Model.DTO.ShowModelDto)">
+        <member name="M:ShowData.Controllers.ShowModelController.UpdateShowModel(System.Int32,ShowData.Model.DTO.ShowModelUpdateDto)">
             <summary>
             Updates ShowModel in database
             </summary>

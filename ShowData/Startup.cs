@@ -37,14 +37,20 @@ namespace ShowData
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddScoped<IShowModelRepository, ShowModelRepository>();
+            services.AddScoped<IDataOverviewRepository, DataOverviewRepository>();
             services.AddAutoMapper(typeof(ShowMapper));
+            services.AddApiVersioning(options => {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+            });
             services.AddSwaggerGen(options => {
                 options.SwaggerDoc("ShowDataApiSpec",
                     new Microsoft.OpenApi.Models.OpenApiInfo()
                     {
                         Title = "Show data API",
                         Version = "1.0",
-                        Description = "CRUD methods for ShowData models",
+                        Description = "CRUD methods for ShowData and DataOverview models",
                         Contact = new Microsoft.OpenApi.Models.OpenApiContact
                         {
                             Name = "Michal Wojtaszek",
@@ -70,7 +76,8 @@ namespace ShowData
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/ShowDataApiSpec/swagger.json", "Show data Api");
+                options.SwaggerEndpoint("/swagger/ShowDataApiSpec/swagger.json", "ShowModel DataOverview Api");
+             //   options.SwaggerEndpoint("/swagger/DataOverviewApiSpec/swagger.json", "Data overview Api");
                 options.RoutePrefix = "";
             });
             app.UseRouting();

@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ShowData.Model.DTO
 {
-    public class ShowModelDto
+    public class ShowModelUpdateDto
     {
-        [Key]
+        [Required]
         public int Id { get; set; }
+        [Required]
         public string DisplayName { get; set; }
         public DateTime DisplayDate { get; set; }
         public bool isAvailsable { get; set; }
         [Required]
         public int DataOverviewId { get; set; }
-        public DataOverviewDto DataOverview { get; set; }
     }
 }
