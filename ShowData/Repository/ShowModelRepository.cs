@@ -1,4 +1,5 @@
-﻿using ShowData.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ShowData.Data;
 using ShowData.Model;
 using ShowData.Repository.IRepository;
 using System;
@@ -29,12 +30,16 @@ namespace ShowData.Repository
 
         public ShowModel GetShowModel(int id)
         {
-          return  _context.ShowModels.FirstOrDefault(x => x.Id == id);
+          return  _context.ShowModels.Include(d => d.DataOverview).FirstOrDefault(x => x.ShowModelId == id);
         }
 
+        public ICollection<ShowModel> GetDataOverviewListWithSpecificShowData(int dataOverviewId)
+        {
+            return _context.ShowModels.Include(d => d.DataOverview).Where(d => d.DataOverviewId == dataOverviewId).ToList();
+        }
         public ICollection<ShowModel> GetShowModelList()
         {
-            return _context.ShowModels.OrderBy(a => a.DisplayName).ToList();
+            return _context.ShowModels.Include(d => d.DataOverview).OrderBy(a => a.DisplayName).ToList();
         }
 
         public bool IsShowModelExists(string displayName)

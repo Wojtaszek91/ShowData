@@ -1,8 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>ShowData.xml</DocumentationFile>
+    <WarningsAsErrors>NU1605;</WarningsAsErrors>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
 
@@ -11,6 +17,13 @@
     <Compile Remove="Migrations\20200716095525_ShowModelInitialize.Designer.cs" />
     <Compile Remove="Migrations\20200716101944_InitializeShowModel.cs" />
     <Compile Remove="Migrations\20200716101944_InitializeShowModel.Designer.cs" />
+    <Compile Remove="Migrations\20200717191840_addDataOverViewModel.cs" />
+    <Compile Remove="Migrations\20200717191840_addDataOverViewModel.Designer.cs" />
+    <Compile Remove="Migrations\20200718133256_AddDataOverViewEntity.cs" />
+    <Compile Remove="Migrations\20200718133256_AddDataOverViewEntity.Designer.cs" />
+    <Compile Remove="Migrations\20200718134012_AddDataOverViewModel.cs" />
+    <Compile Remove="Migrations\20200718134012_AddDataOverViewModel.Designer.cs" />
+    <Compile Remove="Repository\IRepository\DataViewDto.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +35,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
   </ItemGroup>
 
 

@@ -16,6 +16,8 @@ using ShowData.Repository;
 using ShowData.Repository.IRepository;
 using AutoMapper;
 using ShowData.Mappings;
+using System.Reflection;
+using System.IO;
 
 namespace ShowData
 {
@@ -36,6 +38,24 @@ namespace ShowData
             services.AddControllers();
             services.AddScoped<IShowModelRepository, ShowModelRepository>();
             services.AddAutoMapper(typeof(ShowMapper));
+            services.AddSwaggerGen(options => {
+                options.SwaggerDoc("ShowDataApiSpec",
+                    new Microsoft.OpenApi.Models.OpenApiInfo()
+                    {
+                        Title = "Show data API",
+                        Version = "1.0",
+                        Description = "CRUD methods for ShowData models",
+                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                        {
+                            Name = "Michal Wojtaszek",
+                            Email = "wojmichal91@gmail.com",
+                            Url = new Uri("http://www.google.pl")
+                        }
+                    });
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var commentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                options.IncludeXmlComments(commentsFullPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +67,12 @@ namespace ShowData
             }
 
             app.UseHttpsRedirection();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/ShowDataApiSpec/swagger.json", "Show data Api");
+                options.RoutePrefix = "";
+            });
             app.UseRouting();
 
             app.UseAuthorization();

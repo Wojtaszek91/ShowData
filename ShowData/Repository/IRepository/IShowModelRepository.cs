@@ -9,6 +9,7 @@ namespace ShowData.Repository.IRepository
     public interface IShowModelRepository
     {
         ICollection<ShowModel> GetShowModelList();
+        ICollection<ShowModel> GetDataOverviewListWithSpecificShowData(int dataOverviewId);
         ShowModel GetShowModel(int id);
         bool IsShowModelExists(string id);
         bool CreateShowModel(ShowModel showModel);

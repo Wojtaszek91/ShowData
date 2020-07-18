@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ShowData</name>
+    </assembly>
+    <members>
+        <member name="M:ShowData.Controllers.ShowModelController.GetShowModels">
+            <summary>
+            Get list of ShowData model
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.ShowModelController.GetShowModel(System.Int32)">
+            <summary>
+            Get individual ShowModel
+            </summary>
+            <param name="showModelId">Id of specific ShowModel</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.ShowModelController.CreateShowModel(ShowData.Model.DTO.ShowModelDto)">
+            <summary>
+            Creates a ShowModel
+            </summary>
+            <param name="showModelDto">Params requires to create ShowModel</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.ShowModelController.UpdateShowModel(System.Int32,ShowData.Model.DTO.ShowModelDto)">
+            <summary>
+            Updates ShowModel in database
+            </summary>
+            <param name="showModelId">Id of specific ShowModel to update</param>
+            <param name="showModelDto">Required params to build ShowModel</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.ShowModelController.DeleteShowModel(System.Int32,ShowData.Model.DTO.ShowModelDto)">
+            <summary>
+            Deletes ShowModel from database
+            </summary>
+            <param name="showModelId">Id of ShowModel to delete</param>
+            <param name="showModelDto">Required params of ShowModel what should be deleted</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

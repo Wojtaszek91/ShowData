@@ -13,9 +13,10 @@ namespace ShowData.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class ShowModelController : Controller
     {
-        private IShowModelRepository _showModelRepo;
+        private readonly IShowModelRepository _showModelRepo;
         private readonly IMapper _map;
         public ShowModelController(IShowModelRepository showModelRepo, IMapper map)
         {
@@ -23,7 +24,12 @@ namespace ShowData.Controllers
             _map = map;
         }
 
+        /// <summary>
+        /// Get list of ShowData model
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<ShowModelDto>))]
         public IActionResult GetShowModels()
         {
             var modelsList = _showModelRepo.GetShowModelList();
@@ -38,7 +44,14 @@ namespace ShowData.Controllers
             return Ok(dtoModelsList);
         }
 
+        /// <summary>
+        /// Get individual ShowModel
+        /// </summary>
+        /// <param name="showModelId">Id of specific ShowModel</param>
+        /// <returns></returns>
         [HttpGet("{showModelId:int}", Name = "GetShowModel")]
+        [ProducesResponseType(200, Type = typeof(ShowModelDto))]
+        [ProducesResponseType(404)]
         public IActionResult GetShowModel(int showModelId)
         {
             var showModelInDb = _showModelRepo.GetShowModel(showModelId);
@@ -53,6 +66,11 @@ namespace ShowData.Controllers
             else return NotFound();
         }
 
+        /// <summary>
+        /// Creates a ShowModel
+        /// </summary>
+        /// <param name="showModelDto">Params requires to create ShowModel</param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult CreateShowModel([FromBody] ShowModelDto showModelDto)
         {
@@ -79,9 +97,15 @@ namespace ShowData.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtRoute("GetShowModel", new { showModelId = showModelForDb.Id}, showModelForDb);
+            return CreatedAtRoute("GetShowModel", new { showModelId = showModelForDb.ShowModelId}, showModelForDb);
         }
 
+        /// <summary>
+        /// Updates ShowModel in database
+        /// </summary>
+        /// <param name="showModelId">Id of specific ShowModel to update</param>
+        /// <param name="showModelDto">Required params to build ShowModel</param>
+        /// <returns></returns>
         [HttpPatch("{showModelId:int}", Name = "UpdateShowModel")]
         public IActionResult UpdateShowModel(int showModelId, [FromBody] ShowModelDto showModelDto)
         {
@@ -101,6 +125,12 @@ namespace ShowData.Controllers
                 return NoContent();
         }
 
+        /// <summary>
+        /// Deletes ShowModel from database
+        /// </summary>
+        /// <param name="showModelId">Id of ShowModel to delete</param>
+        /// <param name="showModelDto">Required params of ShowModel what should be deleted</param>
+        /// <returns></returns>
         [HttpDelete("{showModelId:int}", Name = "DeleteShowModel")]
         public IActionResult DeleteShowModel(int showModelId, [FromBody] ShowModelDto showModelDto)
         {
