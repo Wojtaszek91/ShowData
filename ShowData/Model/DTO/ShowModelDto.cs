@@ -13,6 +13,7 @@ namespace ShowData.Model.DTO
         public string DisplayName { get; set; }
         public DateTime DisplayDate { get; set; }
         public bool isAvailsable { get; set; }
+        public byte[] Image { get; set; }
         [Required]
         public int DataOverviewId { get; set; }
         public DataOverviewDto DataOverview { get; set; }

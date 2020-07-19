@@ -11,7 +11,8 @@ using ShowData.Repository.IRepository;
 
 namespace ShowData.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/DataOverview")]
+    [ApiVersion("2.0")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     //[ApiExplorerSettings(GroupName = "DataOverviewApiSpec")]
@@ -30,19 +31,13 @@ namespace ShowData.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(List<DataOverviewDto>))]
+        [ProducesResponseType(200, Type = typeof(DataOverviewDto))]
         public IActionResult GetDataOverviews()
         {
-            var modelsList = _dataOverviewRepo.GetDataOverviewList();
+            var modelsList = _dataOverviewRepo.GetDataOverviewList().FirstOrDefault();
 
-            var dtoModelsList = new List<DataOverviewDto>();
 
-            foreach (var model in modelsList)
-            {
-                dtoModelsList.Add(_map.Map<DataOverviewDto>(model));
-            }
-
-            return Ok(dtoModelsList);
+            return Ok(_map.Map<DataOverviewDto>(modelsList));
         }
     }
 }

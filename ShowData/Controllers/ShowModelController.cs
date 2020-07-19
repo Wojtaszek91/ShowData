@@ -11,7 +11,7 @@ using ShowData.Repository.IRepository;
 
 namespace ShowData.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/ShowModel")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
    // [ApiExplorerSettings(GroupName = "ShowDataApiSpec")]
@@ -98,7 +98,7 @@ namespace ShowData.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtRoute("GetShowModel", new { showModelId = showModelForDb.ShowModelId}, showModelForDb);
+            return CreatedAtRoute("GetShowModel", new { Version=HttpContext.GetRequestedApiVersion().ToString(), showModelId = showModelForDb.ShowModelId}, showModelForDb);
         }
 
         /// <summary>

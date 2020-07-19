@@ -11,7 +11,8 @@ using ShowData.Repository.IRepository;
 
 namespace ShowData.Controllers
 {
-    [Route("api/[controller]")]
+  //  [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/DataOverview")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     //[ApiExplorerSettings(GroupName = "DataOverviewApiSpec")]
@@ -98,7 +99,7 @@ namespace ShowData.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtRoute("GetDataOverview", new { dataOverviewId = dataOverviewForDb.DataOverviewId }, dataOverviewForDb);
+            return CreatedAtRoute("GetDataOverview", new { Version = HttpContext.GetRequestedApiVersion().ToString(), dataOverviewId = dataOverviewForDb.DataOverviewId }, dataOverviewForDb);
         }
 
         /// <summary>
