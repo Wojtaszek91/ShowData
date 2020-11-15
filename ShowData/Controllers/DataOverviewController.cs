@@ -16,7 +16,7 @@ namespace ShowData.Controllers
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     //[ApiExplorerSettings(GroupName = "DataOverviewApiSpec")]
-    public class DataOverviewController : Controller
+    public class DataOverviewController : ControllerBase
     {
         private readonly IDataOverviewRepository _dataOverviewRepo;
         private readonly IMapper _map;
@@ -99,11 +99,11 @@ namespace ShowData.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtRoute("GetDataOverview", new { Version = HttpContext.GetRequestedApiVersion().ToString(), dataOverviewId = dataOverviewForDb.DataOverviewId }, dataOverviewForDb);
+            return CreatedAtRoute("GetDataOverview", new { Version = HttpContext.GetRequestedApiVersion().ToString(), dataOverviewId = dataOverviewForDb.Id }, dataOverviewForDb);
         }
 
         /// <summary>
-        /// Updates DataOverview in database
+        /// Updates DataOverview in database.
         /// </summary>
         /// <param name="dataOverviewId">Id of specific DataOverview to update</param>
         /// <param name="dataOverviewDto">Required params to build DataOverview</param>
@@ -131,25 +131,23 @@ namespace ShowData.Controllers
         /// Deletes DataOverview from database
         /// </summary>
         /// <param name="dataOverviewId">Id of DataOverview to delete</param>
-        /// <param name="dataOverviewDto">Required params of DataOverview what should be deleted</param>
         /// <returns></returns>
         [HttpDelete("{dataOverviewId:int}", Name = "DeleteDataOverview")]
-        public IActionResult DeleteDataOverview(int dataOverviewId, [FromBody] DataOverviewDto dataOverviewDto)
+        public IActionResult DeleteDataOverview(int dataOverviewId)
         {
-            if (dataOverviewDto == null || dataOverviewId != dataOverviewDto.Id)
+            if (!_dataOverviewRepo.IsDataOverviewExists(dataOverviewId))
             {
-                return BadRequest(ModelState);
+                return NotFound();
             }
 
-            var dataOverviewObj = _dataOverviewRepo.GetDataOverview(dataOverviewId);
-
-            if (!_dataOverviewRepo.DeleteDataOverview(dataOverviewObj))
+            var dataOverviewFromDb = _dataOverviewRepo.GetDataOverview(dataOverviewId);
+            if (!_dataOverviewRepo.DeleteDataOverview(dataOverviewFromDb))
             {
-                ModelState.AddModelError("", $"Ops, coudn't delete object {dataOverviewDto.Title}");
+                ModelState.AddModelError("", $"Something went wrong when deleting the record {dataOverviewFromDb.Title}");
                 return StatusCode(500, ModelState);
             }
-            else
-                return NoContent();
+
+            return NoContent();
         }
     }
 }

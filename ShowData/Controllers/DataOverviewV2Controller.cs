@@ -16,7 +16,7 @@ namespace ShowData.Controllers
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     //[ApiExplorerSettings(GroupName = "DataOverviewApiSpec")]
-    public class DataOverviewV2Controller : Controller
+    public class DataOverviewV2Controller : ControllerBase
     {
         private readonly IDataOverviewRepository _dataOverviewRepo;
         private readonly IMapper _map;
@@ -36,8 +36,9 @@ namespace ShowData.Controllers
         {
             var modelsList = _dataOverviewRepo.GetDataOverviewList().FirstOrDefault();
 
-
             return Ok(_map.Map<DataOverviewDto>(modelsList));
         }
+
+
     }
 }

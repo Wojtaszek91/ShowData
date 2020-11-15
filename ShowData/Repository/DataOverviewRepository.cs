@@ -32,7 +32,7 @@ namespace ShowData.Repository
 
             public DataOverview GetDataOverview(int id)
             {
-                return _context.DataOverviews.FirstOrDefault(x => x.DataOverviewId == id);
+                return _context.DataOverviews.FirstOrDefault(x => x.Id == id);
             }
 
             public ICollection<DataOverview> GetDataOverviewList()
@@ -40,9 +40,13 @@ namespace ShowData.Repository
                 return _context.DataOverviews.OrderBy(a => a.Title).ToList();
             }
 
-        public bool IsDataOverviewExists(string displayName)
+            public bool IsDataOverviewExists(string displayName)
             {
                 return _context.DataOverviews.Any(n => n.Title.ToLower().Trim() == displayName.ToLower().Trim());
+            }
+            public bool IsDataOverviewExists(int id)
+            {
+                return _context.DataOverviews.Any(n => n.Id == id);
             }
 
             public bool Save()
@@ -55,7 +59,6 @@ namespace ShowData.Repository
             {
                 _context.DataOverviews.Update(dataOverview);
                 return Save();
-
             }
 }
 }

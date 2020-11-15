@@ -4,6 +4,11 @@
         <name>ShowData</name>
     </assembly>
     <members>
+        <member name="T:ShowData.ConfigurateSwaggerOptions">
+            <summary>
+            Gets data for swaggr api documentation. Gather xml comments and set them into specific windows with object type depends on models.
+            </summary>
+        </member>
         <member name="M:ShowData.Controllers.DataOverviewController.GetDataOverviews">
             <summary>
             Get list of ShowData model
@@ -26,18 +31,17 @@
         </member>
         <member name="M:ShowData.Controllers.DataOverviewController.UpdateDataOverview(System.Int32,ShowData.Model.DTO.DataOverviewUpdateDto)">
             <summary>
-            Updates DataOverview in database
+            Updates DataOverview in database.
             </summary>
             <param name="dataOverviewId">Id of specific DataOverview to update</param>
             <param name="dataOverviewDto">Required params to build DataOverview</param>
             <returns></returns>
         </member>
-        <member name="M:ShowData.Controllers.DataOverviewController.DeleteDataOverview(System.Int32,ShowData.Model.DTO.DataOverviewDto)">
+        <member name="M:ShowData.Controllers.DataOverviewController.DeleteDataOverview(System.Int32)">
             <summary>
             Deletes DataOverview from database
             </summary>
             <param name="dataOverviewId">Id of DataOverview to delete</param>
-            <param name="dataOverviewDto">Required params of DataOverview what should be deleted</param>
             <returns></returns>
         </member>
         <member name="M:ShowData.Controllers.DataOverviewV2Controller.GetDataOverviews">
@@ -74,12 +78,11 @@
             <param name="showModelDto">Required params to build ShowModel</param>
             <returns></returns>
         </member>
-        <member name="M:ShowData.Controllers.ShowModelController.DeleteShowModel(System.Int32,ShowData.Model.DTO.ShowModelDto)">
+        <member name="M:ShowData.Controllers.ShowModelController.DeleteShowModel(System.Int32)">
             <summary>
-            Deletes ShowModel from database
+            Deletes DataOverview from database
             </summary>
-            <param name="showModelId">Id of ShowModel to delete</param>
-            <param name="showModelDto">Required params of ShowModel what should be deleted</param>
+            <param name="showModelId">Id of DataOverview to delete</param>
             <returns></returns>
         </member>
     </members>

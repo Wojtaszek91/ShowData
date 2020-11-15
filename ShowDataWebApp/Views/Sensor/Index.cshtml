@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<button asp-action="AddText">Click</button>
+
+    @if (Model != null)
+    {
+      <p>@Model</p>
+    }
+

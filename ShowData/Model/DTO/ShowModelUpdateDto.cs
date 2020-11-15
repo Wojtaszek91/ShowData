@@ -10,10 +10,16 @@ namespace ShowData.Model.DTO
     {
         [Required]
         public int Id { get; set; }
+
         [Required]
         public string DisplayName { get; set; }
+
         public DateTime DisplayDate { get; set; }
+
         public bool isAvailsable { get; set; }
+
+        public byte[] Image { get; set; }
+
         [Required]
         public int DataOverviewId { get; set; }
     }

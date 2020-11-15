@@ -11,6 +11,8 @@ namespace ShowData.Model.DTO
             [Required]
             public int dataIncluded { get; set; }
             [Required]
-            public string Title { get; set; }     
+            public string Title { get; set; }
+            public byte[] Image { get; set; }
+            public DateTime SomeDate { get; set; }
     }
 }

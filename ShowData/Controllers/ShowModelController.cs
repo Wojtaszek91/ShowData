@@ -15,7 +15,7 @@ namespace ShowData.Controllers
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
    // [ApiExplorerSettings(GroupName = "ShowDataApiSpec")]
-    public class ShowModelController : Controller
+    public class ShowModelController : ControllerBase
     {
         private readonly IShowModelRepository _showModelRepo;
         private readonly IMapper _map;
@@ -98,7 +98,7 @@ namespace ShowData.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtRoute("GetShowModel", new { Version=HttpContext.GetRequestedApiVersion().ToString(), showModelId = showModelForDb.ShowModelId}, showModelForDb);
+            return CreatedAtRoute("GetShowModel", new { Version=HttpContext.GetRequestedApiVersion().ToString(), showModelId = showModelForDb.Id}, showModelForDb);
         }
 
         /// <summary>
@@ -126,29 +126,52 @@ namespace ShowData.Controllers
                 return NoContent();
         }
 
+        ///// <summary>
+        ///// Deletes ShowModel from database
+        ///// </summary>
+        ///// <param name="showModelId">Id of ShowModel to delete</param>
+        ///// <param name="showModelDto">Required params of ShowModel what should be deleted</param>
+        ///// <returns></returns>
+        //[HttpDelete("{showModelId:int}", Name = "DeleteShowModel")]
+        //public IActionResult DeleteShowModel(int showModelId, [FromBody] ShowModelDto showModelDto)
+        //{
+        //    if (showModelDto == null || showModelId != showModelDto.Id)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var showModelObj = _showModelRepo.GetShowModel(showModelId);
+
+        //    if (!_showModelRepo.DeleteShowModel(showModelObj))
+        //    {
+        //        ModelState.AddModelError("", $"Ops, coudn't delete object {showModelDto.DisplayName}");
+        //        return StatusCode(500, ModelState);
+        //    }
+        //    else
+        //        return NoContent();
+        //}
+
         /// <summary>
-        /// Deletes ShowModel from database
+        /// Deletes DataOverview from database
         /// </summary>
-        /// <param name="showModelId">Id of ShowModel to delete</param>
-        /// <param name="showModelDto">Required params of ShowModel what should be deleted</param>
+        /// <param name="showModelId">Id of DataOverview to delete</param>
         /// <returns></returns>
         [HttpDelete("{showModelId:int}", Name = "DeleteShowModel")]
-        public IActionResult DeleteShowModel(int showModelId, [FromBody] ShowModelDto showModelDto)
+        public IActionResult DeleteShowModel(int showModelId)
         {
-            if (showModelDto == null || showModelId != showModelDto.Id)
+            if (!_showModelRepo.IsShowModelExists(showModelId))
             {
-                return BadRequest(ModelState);
+                return NotFound();
             }
 
-            var showModelObj = _showModelRepo.GetShowModel(showModelId);
-
-            if (!_showModelRepo.DeleteShowModel(showModelObj))
+            var showModelFromDb = _showModelRepo.GetShowModel(showModelId);
+            if (!_showModelRepo.DeleteShowModel(showModelFromDb))
             {
-                ModelState.AddModelError("", $"Ops, coudn't delete object {showModelDto.DisplayName}");
+                ModelState.AddModelError("", $"Something went wrong when deleting the record {showModelFromDb.DisplayName}");
                 return StatusCode(500, ModelState);
             }
-            else
-                return NoContent();
+
+            return NoContent();
         }
     }
 }

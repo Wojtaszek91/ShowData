@@ -30,7 +30,7 @@ namespace ShowData.Repository
 
         public ShowModel GetShowModel(int id)
         {
-          return  _context.ShowModels.Include(d => d.DataOverview).FirstOrDefault(x => x.ShowModelId == id);
+          return  _context.ShowModels.Include(d => d.DataOverview).FirstOrDefault(x => x.Id == id);
         }
 
         public ICollection<ShowModel> GetDataOverviewListWithSpecificShowData(int dataOverviewId)
@@ -45,6 +45,10 @@ namespace ShowData.Repository
         public bool IsShowModelExists(string displayName)
         {
           return  _context.ShowModels.Any(n => n.DisplayName.ToLower().Trim() == displayName.ToLower().Trim());
+        }
+        public bool IsShowModelExists(int id)
+        {
+          return  _context.ShowModels.Any(n => n.Id == id);
         }
 
         public bool Save()

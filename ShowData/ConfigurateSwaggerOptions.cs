@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace ShowData
 {
+    /// <summary>
+    /// Gets data for swaggr api documentation. Gather xml comments and set them into specific windows with object type depends on models.
+    /// </summary>
     public class ConfigurateSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
         readonly IApiVersionDescriptionProvider provider;

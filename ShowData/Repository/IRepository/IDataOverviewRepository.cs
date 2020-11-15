@@ -12,11 +12,19 @@ namespace ShowData.Repository.IRepository
         public interface IDataOverviewRepository
         {
             ICollection<DataOverview> GetDataOverviewList();
+
             DataOverview GetDataOverview(int id);
-            bool IsDataOverviewExists(string id);
+
+            bool IsDataOverviewExists(string title);
+
+            bool IsDataOverviewExists(int id);
+
             bool CreateDataOverview(DataOverview dataOverview);
+
             bool UpdateDataOverview(DataOverview dataOverview);
+
             bool DeleteDataOverview(DataOverview dataOverview);
+
             bool Save();
 
         }

@@ -4,20 +4,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShowData.Model.DTO
+namespace ShowDataWebApp.Models
 {
-    public class ShowModelUpsterDto
+    public class ShowModel
     {
-        [Required]
+        public int Id { get; set; }
         public string DisplayName { get; set; }
-
         public DateTime DisplayDate { get; set; }
-
         public bool isAvailsable { get; set; }
-
         public byte[] Image { get; set; }
-
         [Required]
         public int DataOverviewId { get; set; }
+        public DataOverview DataOverview { get; set; }
     }
 }

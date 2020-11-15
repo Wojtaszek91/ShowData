@@ -14,7 +14,8 @@ namespace ShowData.Model.DTO
             public int dataIncluded { get; set; }
             [Required]
             public string Title { get; set; }
-            public ICollection<ShowModelDto> showModel { get; set; }
-        
+            public byte[] Image { get; set; }
+            public DateTime SomeDate { get; set; }
+            public ICollection<ShowModelDto> showModel { get; set; }       
     }
 }

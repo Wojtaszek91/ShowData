@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShowData.Model.DTO
+namespace ShowDataWebApp.Models
 {
-    public class DataOverviewUpdateDto
+    public class DataOverview
     {
-        [Key]
         public int Id { get; set; }
         [Required]
         public int dataIncluded { get; set; }
@@ -16,5 +15,6 @@ namespace ShowData.Model.DTO
         public string Title { get; set; }
         public byte[] Image { get; set; }
         public DateTime SomeDate { get; set; }
+        public ICollection<ShowModel> showModel { get; set; }
     }
 }
