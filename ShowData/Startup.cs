@@ -21,6 +21,9 @@ using System.IO;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ShowData
 {
@@ -39,6 +42,7 @@ namespace ShowData
             services.AddDbContext<ApplicationDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IShowModelRepository, ShowModelRepository>();
             services.AddScoped<IDataOverviewRepository, DataOverviewRepository>();
             services.AddAutoMapper(typeof(ShowMapper));
@@ -50,6 +54,29 @@ namespace ShowData
             services.AddVersionedApiExplorer(options => options.GroupNameFormat ="'v'VVV");
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigurateSwaggerOptions>();
             services.AddSwaggerGen();
+
+            var appSettingsClass = Configuration.GetSection("AppSettings");
+            var appSettings = appSettingsClass.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            services.Configure<AppSettings>(appSettingsClass);
+            services.AddAuthentication(a =>
+            {
+                a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             /*services.AddSwaggerGen(options => {
                 options.SwaggerDoc("ShowDataApiSpec",
                     new Microsoft.OpenApi.Models.OpenApiInfo()
@@ -98,6 +125,12 @@ namespace ShowData
             //});
             app.UseRouting();
 
+            app.UseCors(x => x.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
+            // use before Authorization !
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -167,7 +167,7 @@ namespace ShowData.Controllers
             var showModelFromDb = _showModelRepo.GetShowModel(showModelId);
             if (!_showModelRepo.DeleteShowModel(showModelFromDb))
             {
-                ModelState.AddModelError("", $"Something went wrong when deleting the record {showModelFromDb.DisplayName}");
+                ModelState.AddModelError("", $"Something went wrong while deleting the record {showModelFromDb.DisplayName}");
                 return StatusCode(500, ModelState);
             }
 

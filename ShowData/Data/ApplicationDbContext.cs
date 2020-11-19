@@ -15,5 +15,6 @@ namespace ShowData.Data
         }
         public DbSet<ShowModel> ShowModels { get; set; }
         public DbSet<DataOverview> DataOverviews { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
