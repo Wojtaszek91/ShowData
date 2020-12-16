@@ -33,7 +33,7 @@ namespace ShowData
 
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                Description = "Authorize header jwt. Write \"Beater (token value)\"",
+                Description = "Authorize header jwt. Write \"Bearer (token value)\"",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey,

@@ -42,7 +42,7 @@ namespace ShowData.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("register")]
         public IActionResult Register([FromBody] AuthenticationDetails userDetails)
         {
             if (!_userRepository.IsUserNameTaken(userDetails.Username))

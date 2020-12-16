@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ShowDataWebApp.Models;
 using ShowDataWebApp.Repository.IRepository;
+using Microsoft.AspNetCore.Http;
 
 namespace ShowDataWebApp.Controllers
 {
@@ -25,13 +26,16 @@ namespace ShowDataWebApp.Controllers
 
         public async Task<IActionResult> GetDataOverviews()
         {
-            return Json(new { data = await _dataRepo.GetAllAsync(StaticUrlBase.DataOverviewApiUrl) });
+            
+            return Json(new { data = await _dataRepo.GetAllAsync(StaticUrlBase.DataOverviewApiUrl,
+                HttpContext.Session.GetString("ShowDataToken")) });
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteDataOverview(int id)
         {
-            var state = await _dataRepo.DeleteAsync(StaticUrlBase.DataOverviewApiUrl, id);
+            var state = await _dataRepo.DeleteAsync(StaticUrlBase.DataOverviewApiUrl, id,
+                HttpContext.Session.GetString("ShowDataToken"));
             if (state)
                 return Json(new { success = true, message = "Object has been deleted." });
             else return Json(new { success = false, message = "Object has been NOT deleted" });
@@ -45,7 +49,9 @@ namespace ShowDataWebApp.Controllers
                 return View(obj);
             }
 
-            obj = await _dataRepo.GetAsync(StaticUrlBase.DataOverviewApiUrl, id.GetValueOrDefault());
+            obj = await _dataRepo.GetAsync(StaticUrlBase.DataOverviewApiUrl,
+                id.GetValueOrDefault(),
+                HttpContext.Session.GetString("ShowDataToken"));
 
             if (obj == null)
                 return NotFound();
@@ -73,23 +79,37 @@ namespace ShowDataWebApp.Controllers
                         }
                     }
                     dataOverview.Image = p1;
-                } else
+                }
+                else if (dataOverview.Id != 0)
                 {
-                    var dbDataOverview = await _dataRepo.GetAsync(StaticUrlBase.DataOverviewApiUrl, dataOverview.Id);
+                    var dbDataOverview = await _dataRepo.GetAsync(StaticUrlBase.DataOverviewApiUrl,
+                        dataOverview.Id,
+                        HttpContext.Session.GetString("ShowDataToken"));
                     dataOverview.Image = dbDataOverview.Image;
                 }
                 bool respon;
                 if (dataOverview.Id == 0)
                 {
-                    respon = await _dataRepo.CreateAsync(StaticUrlBase.DataOverviewApiUrl, dataOverview);
-                } else
-                {
-                    respon = await _dataRepo.UpdateAsync(StaticUrlBase.DataOverviewApiUrl + dataOverview.Id, dataOverview);
+                    respon = await _dataRepo.CreateAsync(StaticUrlBase.DataOverviewApiUrl,
+                        dataOverview,
+                        HttpContext.Session.GetString("ShowDataToken"));
                 }
-                if (respon) {
+                else
+                {
+                    respon = await _dataRepo.UpdateAsync(StaticUrlBase.DataOverviewApiUrl + dataOverview.Id,
+                        dataOverview,
+                        HttpContext.Session.GetString("ShowDataToken"));
+                }
+                if (respon)
+                {
                     return RedirectToAction(nameof(Index));
-                }  else return View(dataOverview);
-            } else
+                }
+                else
+                {
+                    return View(dataOverview);
+                }
+            }
+            else
                 return View(dataOverview);
         }
     }

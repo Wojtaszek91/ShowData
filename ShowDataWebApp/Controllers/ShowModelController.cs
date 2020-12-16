@@ -9,6 +9,7 @@ using ShowDataWebApp.Models.ViewModels;
 using ShowDataWebApp.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShowDataWebApp.Repository;
+using Microsoft.AspNetCore.Http;
 
 namespace ShowDataWebApp.Controllers
 {
@@ -30,13 +31,16 @@ namespace ShowDataWebApp.Controllers
 
         public async Task<IActionResult> GetShowModels()
         {
-            return Json(new { data = await _showModelRepo.GetAllAsync(StaticUrlBase.ShowModelApiUrl) });
+            var token = HttpContext.Session.GetString("ShowDataToken");
+            return Json(new { data = await _showModelRepo.GetAllAsync(StaticUrlBase.ShowModelApiUrl,
+                token) });
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteShowModel(int id)
         {
-            var state = await _showModelRepo.DeleteAsync(StaticUrlBase.ShowModelApiUrl, id);
+            var state = await _showModelRepo.DeleteAsync(StaticUrlBase.ShowModelApiUrl, id,
+                HttpContext.Session.GetString("ShowDataToken"));
             if (state)
                 return Json(new { success = true, message = "Object has been deleted." });
             else return Json(new { success = false, message = "Object has been NOT deleted" });
@@ -44,7 +48,8 @@ namespace ShowDataWebApp.Controllers
 
         public async Task<IActionResult> UpsertShowModel(int? id)
         {
-            IEnumerable<DataOverview> DOlist = await _dataRepo.GetAllAsync(StaticUrlBase.DataOverviewApiUrl);
+            IEnumerable<DataOverview> DOlist = await _dataRepo.GetAllAsync(StaticUrlBase.DataOverviewApiUrl,
+                HttpContext.Session.GetString("ShowDataToken"));
 
             ShowModelVM showVM = new ShowModelVM()
             {
@@ -62,7 +67,9 @@ namespace ShowDataWebApp.Controllers
                 return View(showVM);
             }
 
-            showVM.ShowModel = await _showModelRepo.GetAsync(StaticUrlBase.ShowModelApiUrl, id.GetValueOrDefault());
+            showVM.ShowModel = await _showModelRepo.GetAsync(StaticUrlBase.ShowModelApiUrl,
+                id.GetValueOrDefault(),
+                HttpContext.Session.GetString("ShowDataToken"));
 
             if (showVM == null)
                 return NotFound();
@@ -93,16 +100,22 @@ namespace ShowDataWebApp.Controllers
                 }
                 else
                 {
-                    var dbShowModel = await _showModelRepo.GetAsync(StaticUrlBase.DataOverviewApiUrl, showModelVM.ShowModel.Id);
+                    var dbShowModel = await _showModelRepo.GetAsync(StaticUrlBase.DataOverviewApiUrl,
+                        showModelVM.ShowModel.Id,
+                        HttpContext.Session.GetString("ShowDataToken"));
                     showModelVM.ShowModel.Image = dbShowModel.Image;
                 }
                 bool respon;
                 if (showModelVM.ShowModel.Id == 0)
                 {
-                    respon = await _showModelRepo.CreateAsync(StaticUrlBase.ShowModelApiUrl, showModelVM.ShowModel);
+                    respon = await _showModelRepo.CreateAsync(StaticUrlBase.ShowModelApiUrl,
+                        showModelVM.ShowModel,
+                        HttpContext.Session.GetString("ShowDataToken"));
                 } else
                 {
-                    respon = await _showModelRepo.UpdateAsync(StaticUrlBase.ShowModelApiUrl + showModelVM.ShowModel.Id, showModelVM.ShowModel);
+                    respon = await _showModelRepo.UpdateAsync(StaticUrlBase.ShowModelApiUrl + showModelVM.ShowModel.Id,
+                        showModelVM.ShowModel,
+                        HttpContext.Session.GetString("ShowDataToken"));
                 }
                 if (respon) {
                     return RedirectToAction(nameof(Index));
@@ -110,7 +123,8 @@ namespace ShowDataWebApp.Controllers
             }
             else
             {
-                IEnumerable<DataOverview> DOlist = await _dataRepo.GetAllAsync(StaticUrlBase.DataOverviewApiUrl);
+                IEnumerable<DataOverview> DOlist = await _dataRepo.GetAllAsync(StaticUrlBase.DataOverviewApiUrl,
+                    HttpContext.Session.GetString("ShowDataToken"));
 
                 showModelVM.DataOverviewList = DOlist.Select(e => new SelectListItem
                 {

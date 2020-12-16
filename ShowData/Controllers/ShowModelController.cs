@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShowData.Model;
@@ -29,6 +30,7 @@ namespace ShowData.Controllers
         /// Get list of ShowData model
         /// </summary>
         /// <returns></returns>
+        [Authorize("Bearer")]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(List<ShowModelDto>))]
         public IActionResult GetShowModels()
@@ -50,6 +52,7 @@ namespace ShowData.Controllers
         /// </summary>
         /// <param name="showModelId">Id of specific ShowModel</param>
         /// <returns></returns>
+        [Authorize("Bearer")]
         [HttpGet("{showModelId:int}", Name = "GetShowModel")]
         [ProducesResponseType(200, Type = typeof(ShowModelDto))]
         [ProducesResponseType(404)]
@@ -72,6 +75,7 @@ namespace ShowData.Controllers
         /// </summary>
         /// <param name="showModelDto">Params requires to create ShowModel</param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost]
         public IActionResult CreateShowModel([FromBody] ShowModelUpdateDto showModelDto)
         {
@@ -107,6 +111,7 @@ namespace ShowData.Controllers
         /// <param name="showModelId">Id of specific ShowModel to update</param>
         /// <param name="showModelDto">Required params to build ShowModel</param>
         /// <returns></returns>
+        [Authorize]
         [HttpPatch("{showModelId:int}", Name = "UpdateShowModel")]
         public IActionResult UpdateShowModel(int showModelId, [FromBody] ShowModelUpdateDto showModelDto)
         {
@@ -156,6 +161,7 @@ namespace ShowData.Controllers
         /// </summary>
         /// <param name="showModelId">Id of DataOverview to delete</param>
         /// <returns></returns>
+        [Authorize]
         [HttpDelete("{showModelId:int}", Name = "DeleteShowModel")]
         public IActionResult DeleteShowModel(int showModelId)
         {

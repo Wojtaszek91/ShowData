@@ -85,5 +85,19 @@
             <param name="showModelId">Id of DataOverview to delete</param>
             <returns></returns>
         </member>
+        <member name="M:ShowData.Controllers.UserController.Authenticate(ShowData.Model.AuthenticationDetails)">
+            <summary>
+            Authenticating user.
+            </summary>
+            <param name="userDetails">Must contain user name and password.</param>
+            <returns>Http Ok if success, http bad request if fail.</returns>
+        </member>
+        <member name="M:ShowData.Repository.UserRepository.IsUserNameTaken(System.String)">
+            <summary>
+            Checks if user name is already taken.
+            </summary>
+            <param name="userName">String user name to check.</param>
+            <returns>Bool depended if user name is taken or not.</returns>
+        </member>
     </members>
 </doc>

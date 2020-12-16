@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace ShowDataWebApp.Repository
         {
             _httpFactory = httpFactory;
         }
-        public async Task<bool> CreateAsync(string url, T objToCreate)
+        public async Task<bool> CreateAsync(string url, T objToCreate, string token ="")
         {
             var request = new HttpRequestMessage(HttpMethod.Post, url);
             if (objToCreate != null)
@@ -29,6 +30,10 @@ namespace ShowDataWebApp.Repository
                 return false;
 
             var client = _httpFactory.CreateClient();
+            if(token.Length > 0)
+            {
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
 
             HttpResponseMessage respone = await client.SendAsync(request);
 
@@ -38,10 +43,14 @@ namespace ShowDataWebApp.Repository
                 return false;
         }
 
-        public async Task<bool> DeleteAsync(string url, int idOfObjToDelete)
+        public async Task<bool> DeleteAsync(string url, int idOfObjToDelete, string token="")
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, url+idOfObjToDelete);
             var client = _httpFactory.CreateClient();
+            if (token.Length > 0)
+            {
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
 
             HttpResponseMessage respone = await client.SendAsync(request);
 
@@ -51,10 +60,14 @@ namespace ShowDataWebApp.Repository
                 return false;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(string url)
+        public async Task<IEnumerable<T>> GetAllAsync(string url, string token="")
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var client = _httpFactory.CreateClient();
+            if (token.Length > 0)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
 
             HttpResponseMessage respone = await client.SendAsync(request);
 
@@ -67,10 +80,14 @@ namespace ShowDataWebApp.Repository
                 return null;
         }
 
-        public async Task<T> GetAsync(string url, int id)
+        public async Task<T> GetAsync(string url, int id, string token)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url + id);
             var client = _httpFactory.CreateClient();
+            if (token.Length > 0)
+            {
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
 
             HttpResponseMessage respone = await client.SendAsync(request);
 
@@ -83,7 +100,7 @@ namespace ShowDataWebApp.Repository
                 return null;
         }
 
-        public async Task<bool> UpdateAsync(string url, T ObjToUpdate)
+        public async Task<bool> UpdateAsync(string url, T ObjToUpdate, string token="")
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, url);
             if (ObjToUpdate != null)
@@ -94,6 +111,10 @@ namespace ShowDataWebApp.Repository
                 return false;
 
             var client = _httpFactory.CreateClient();
+            if (token.Length > 0)
+            {
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
 
             HttpResponseMessage respone = await client.SendAsync(request);
 

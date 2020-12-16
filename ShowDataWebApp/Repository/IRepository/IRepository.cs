@@ -7,10 +7,10 @@ namespace ShowDataWebApp.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        Task<T> GetAsync(string url, int id);
-        Task<IEnumerable<T>> GetAllAsync(string url);
-        Task<bool> CreateAsync(string url, T objToCreate);
-        Task<bool> UpdateAsync(string url, T ObjToUpdate);
-        Task<bool> DeleteAsync(string url, int idOfObjToDelete);
+        Task<T> GetAsync(string url, int id, string token);
+        Task<IEnumerable<T>> GetAllAsync(string url, string token);
+        Task<bool> CreateAsync(string url, T objToCreate, string token);
+        Task<bool> UpdateAsync(string url, T ObjToUpdate, string token);
+        Task<bool> DeleteAsync(string url, int idOfObjToDelete, string token);
     }
 }
