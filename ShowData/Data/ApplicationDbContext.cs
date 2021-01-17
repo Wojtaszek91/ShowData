@@ -13,8 +13,8 @@ namespace ShowData.Data
         {
 
         }
-        public DbSet<ShowModel> ShowModels { get; set; }
-        public DbSet<DataOverview> DataOverviews { get; set; }
+        public DbSet<task> tasks { get; set; }
+        public DbSet<Project> Projects { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

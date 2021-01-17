@@ -1,0 +1,70 @@
+﻿@model ShowDataWebApp.Models.ViewModels.TasksViewVM
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAccessor
+@*Need Microsoft.AspNetCore.http to get @inject httpaccessor *@
+@{
+    ViewData["Title"] = "TasksView";
+}
+<div class="p-5" style="border-radius:20px;">
+
+
+
+
+    <div class="card mb-3">
+        <h3 class="card-header">Project: @Model.Project.Title</h3>
+
+        <div class="row">
+            <div class="col-6 text-center">
+                <div class="card-body">
+                    <p class="card-text">@Model.Project.Description</p>
+                </div>
+            </div>
+            <div class="col-6 text-right">
+                @if (Model.Project.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Project.Image);
+                    var imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
+                    <img src="@imgSrc" width="200" />
+                }
+            </div>
+
+        </div>
+        <div class="card-footer text-muted">
+            Deadline: @Model.Project.DeadLine.ToShortDateString()
+            @if (httpAccessor.HttpContext.User.IsInRole("Admin"))
+            {
+                <br />
+                <a asp-action="Upserttask" class="btn btn-primary text-white"><i class="fas fa-plus"></i> &nbsp; Add Task</a>
+            }
+
+        </div>
+    </div>
+
+    @foreach (var task in Model.TasksList)
+    {
+        <div class="jumbotron">
+            <h2 class="display-4">@task.DisplayName</h2>
+            @if (task.TaskDescription.Length == 0)
+            {
+                <p class="lead">No available description.</p>
+            }
+            else
+            {
+                <p class="lead">@task.TaskDescription</p>
+            }
+            <hr class="my-4">
+            <p>Deadline : @task.DisplayDate.ToShortDateString()</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="#" role="button">Report finish task !</a>
+                @if (httpAccessor.HttpContext.User.IsInRole("Admin"))
+                {
+                    <a href="/task/Upserttask/@task.Id" class='btn btn-success text-white'
+                       style='cursor:pointer;'> <i class='far fa-edit'></i></a>
+
+                    <a href="/task/Deletetask/@task.Id") class='btn btn-danger text-white'
+                       style='cursor:pointer;'> <i class='far fa-trash-alt'></i></a>
+                }
+            </p>
+        </div>
+    }
+</div>

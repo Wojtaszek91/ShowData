@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,13 +27,23 @@ namespace ShowDataWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(a =>
+            {
+                a.Cookie.HttpOnly = true;
+                a.SlidingExpiration = true;
+                a.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+                a.LoginPath = "/Home/Login";
+                a.AccessDeniedPath = "/Home/AcessDenied";
+            });
+
+            services.AddHttpContextAccessor();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddHttpClient();
             services.AddScoped<IUserAccountRepository, UserAccountRepository>();
-            services.AddScoped<IShowModelRepository, ShowModelRepository>();
-            services.AddScoped<IDataOverviewRepository, DataOverviewRepository>();
+            services.AddScoped<ItaskRepository, taskRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSession(Options =>
@@ -66,7 +77,6 @@ namespace ShowDataWebApp
                 .AllowAnyHeader());
 
             app.UseSession();
-
             app.UseAuthentication();
             app.UseAuthorization();
 

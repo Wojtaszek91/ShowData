@@ -3,10 +3,66 @@
 @{
     ViewData["Title"] = "Login";
 }
+<h1 class="text-center">Login</h1>
+<div class="jumbotron">
+    @if (TempData["registOK"] != null)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <a href="#" class="alert-link">@TempData["registOK"]</a>
+        </div>
+    }
+    @if (TempData["loginIssue"] != null)
+    {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Oops...</strong> <a href="#" class="alert-link">@TempData["loginIssue"]</a>
+        </div>
+    }
+    <form method="post">
+        <fieldset>
 
-<h1>Login</h1>
-<form method="post">
-    <input asp-for="Username" type="text" placeholder="Username"/>
-    <input asp-for="Password" type="text" placeholder="Password"/>
-    <button type="submit" value="Submit">Login !</button>
-</form>
+            @if (TempData["noName"] == null)
+            {
+                <div class="form-group">
+                    <label class="col-form-label" asp-for="Username">Username</label>
+                    <input asp-for="Username" type="text" class="form-control" placeholder="Username" />
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-dismissible alert-danger">
+                    <label class="col-form-label" asp-for="Username">Username</label>
+                    <input asp-for="Username" type="text" class="form-control" placeholder="Username" />
+                </div>
+
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Oops...</strong> <a href="#" class="alert-link">@TempData["noName"]</a>
+                </div>
+            }
+
+            @if (TempData["noPass"] == null)
+            {
+                <div class="form-group">
+                    <label asp-for="Password">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-dismissible alert-danger">
+                    <label class="form-control-label" asp-for="Password">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                    <div class="invalid-feedback">Fill the password input first !</div>
+                </div>
+
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Oops...</strong> <a href="#" class="alert-link">@TempData["noPass"]</a>
+                </div>
+            }
+        </fieldset>
+        <button type="submit" class="btn btn-dark" value="Submit">Login !</button>
+    </form>
+</div>

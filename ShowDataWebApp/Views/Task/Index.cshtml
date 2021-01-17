@@ -1,0 +1,39 @@
+﻿@model ShowDataWebApp.Models.ViewModels.IndexTaskViewModel
+<input id="projectIdHolder" type="text" hidden="hidden" value="@Model.PojectId"/>
+<div class="p-4" style="border-radius:20px;">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-primary">Show Model List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-action="Upserttask" class="btn btn-primary text-white"><i class="fas fa-plus"></i> &nbsp; Create Task</a>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div style="background-color:#cde8e2" class="p-3 rounded">
+        <table id="tblData" class="table table-hover" style="width:100%">
+            <thead>
+                <tr class="table-danger">
+                    <th>Project title</th>
+                    <th>Task name</th>
+                    <th>Is open</th>
+                    <th>Deadline</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div>
+    <iframe width="560"
+            height="315"
+            src="https://www.youtube.com/embed/RLWcYADoV84"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+</div>
+
+@section Scripts{
+    <script src="~/js/TaskJs.js"></script>
+}

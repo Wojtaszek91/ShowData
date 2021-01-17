@@ -1,0 +1,44 @@
+﻿@model ShowDataWebApp.Models.ViewModels.ProjectsVM
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAccessor
+@*Need Microsoft.AspNetCore.http to get @inject httpaccessor *@
+<div class="p-4" style="border-radius:20px;">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-primary">Projects List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-action="UpsertProject" class="btn btn-primary text-white"><i class="fas fa-plus"></i> &nbsp; Create Project</a>
+        </div>
+    </div>
+    <br />
+    <br />
+
+    <div class="jumbotron">
+        @foreach (var project in Model.ProjectsList)
+        {
+            <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+                <div class="card-header font-weight-bold">
+                    <a href="/task/TasksView?id=@project.Id">@project.Title</a>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">@project.Description</p>
+                    <div class="text-center">
+                        <h6 class="card-title">Open tasks : @project.TasksIncluded</h6>
+                        @if (httpAccessor.HttpContext.User.IsInRole("Admin"))
+                        {
+                            <a href="/Project/UpsertProject/@project.Id" class='btn btn-success text-white'
+                               style='cursor:pointer;'> <i class='far fa-edit'></i></a>
+                            <a onclick=Delete("/Project/DeleteProject/@project.Id") class='btn btn-danger text-white'
+                               style='cursor:pointer;'> <i class='far fa-trash-alt'></i></a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+</div>
+
+

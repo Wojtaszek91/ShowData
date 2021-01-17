@@ -14,10 +14,10 @@
 
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200716095525_ShowModelInitialize.cs" />
-    <Compile Remove="Migrations\20200716095525_ShowModelInitialize.Designer.cs" />
-    <Compile Remove="Migrations\20200716101944_InitializeShowModel.cs" />
-    <Compile Remove="Migrations\20200716101944_InitializeShowModel.Designer.cs" />
+    <Compile Remove="Migrations\20200716095525_taskInitialize.cs" />
+    <Compile Remove="Migrations\20200716095525_taskInitialize.Designer.cs" />
+    <Compile Remove="Migrations\20200716101944_Initializetask.cs" />
+    <Compile Remove="Migrations\20200716101944_Initializetask.Designer.cs" />
     <Compile Remove="Migrations\20200717191840_addDataOverViewModel.cs" />
     <Compile Remove="Migrations\20200717191840_addDataOverViewModel.Designer.cs" />
     <Compile Remove="Migrations\20200718133256_AddDataOverViewEntity.cs" />
@@ -30,16 +30,20 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

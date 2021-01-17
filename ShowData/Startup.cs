@@ -38,7 +38,6 @@ namespace ShowData
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
@@ -47,8 +46,9 @@ namespace ShowData
             services.AddControllers();
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IShowModelRepository, ShowModelRepository>();
-            services.AddScoped<IDataOverviewRepository, DataOverviewRepository>();
+            services.AddScoped<ItaskRepository, taskRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAutoMapper(typeof(ShowMapper));
@@ -91,26 +91,6 @@ namespace ShowData
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser().Build());
             });
-
-            /*services.AddSwaggerGen(options => {
-                options.SwaggerDoc("ShowDataApiSpec",
-                    new Microsoft.OpenApi.Models.OpenApiInfo()
-                    {
-                        Title = "Show data API",
-                        Version = "1.0",
-                        Description = "CRUD methods for ShowData and DataOverview models",
-                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
-                        {
-                            Name = "Michal Wojtaszek",
-                            Email = "wojmichal91@gmail.com",
-                            Url = new Uri("http://www.google.pl")
-                        }
-                    });
-                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var commentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
-                options.IncludeXmlComments(commentsFullPath);
-            });
-            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -134,7 +114,7 @@ namespace ShowData
             });
             //app.UseSwaggerUI(options =>
             //{
-            //    options.SwaggerEndpoint("/swagger/ShowDataApiSpec/swagger.json", "ShowModel DataOverview Api");
+            //    options.SwaggerEndpoint("/swagger/ShowDataApiSpec/swagger.json", "task DataOverview Api");
             //    options.SwaggerEndpoint("/swagger/DataOverviewApiSpec/swagger.json", "Data overview Api");
             //    options.RoutePrefix = "";
             //});

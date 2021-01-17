@@ -4,12 +4,10 @@ using ShowData.Data;
 using ShowData.Model;
 using ShowData.Repository.IRepository;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ShowData.Repository
 {
@@ -29,7 +27,7 @@ namespace ShowData.Repository
             if(user != null)
             {
                 var tokenHanlder = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+                var secret = Encoding.ASCII.GetBytes(_appSettings.Secret);
                 var tokenDescriptior = new SecurityTokenDescriptor()
                 {
                     Subject = new ClaimsIdentity(new Claim[] {
@@ -37,8 +35,9 @@ namespace ShowData.Repository
                         new Claim(ClaimTypes.Role, user.Role.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                    SigningCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(secret),
+                        SecurityAlgorithms.HmacSha256Signature)
                 };
 
                 var token = tokenHanlder.CreateToken(tokenDescriptior);
@@ -62,26 +61,25 @@ namespace ShowData.Repository
         {
             var user = _context.Users.FirstOrDefault(u => u.Username == userName);
             if (user != null)
-                return false;
-            else
                 return true;
+            else
+                return false;
         }
 
         public User RegisterUser(string userName, string password)
         {
-            User userToSave = new User()
+            User newUser = new User()
             {
                 Username = userName,
                 Password = password,
-                Role = "User"                
+                Role = "Admin"                
             };
 
-            _context.Users.Add(userToSave);
+            _context.Users.Add(newUser);
             _context.SaveChanges();
-            userToSave.Password = "";
+            newUser.Password = "";
 
-            return userToSave;
-
+            return newUser;
         }
     }
 }

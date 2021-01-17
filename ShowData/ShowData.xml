@@ -9,80 +9,74 @@
             Gets data for swaggr api documentation. Gather xml comments and set them into specific windows with object type depends on models.
             </summary>
         </member>
-        <member name="M:ShowData.Controllers.DataOverviewController.GetDataOverviews">
+        <member name="M:ShowData.Controllers.ProjectController.GetProjcets">
+            <summary>
+            Get list of Projects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.ProjectController.GetProject(System.Int32)">
+            <summary>
+            Get individual Project
+            </summary>
+            <param name="projectId">Id of specific Project</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.ProjectController.CreateProject(ShowData.Model.DTO.ProjectCreateDto)">
+            <summary>
+            Creates a Project
+            </summary>
+            <param name="projectDto">Params requires to create Project</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.ProjectController.UpdateProject(System.Int32,ShowData.Model.DTO.ProjectUpdateDto)">
+            <summary>
+            Updates Project in database.
+            </summary>
+            <param name="projectId">Id of specific Project to update</param>
+            <param name="projectDto">Required params to build Project</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.ProjectController.DeleteProject(System.Int32)">
+            <summary>
+            Deletes Project from database
+            </summary>
+            <param name="projectId">Id of Project to delete</param>
+            <returns></returns>
+        </member>
+        <member name="M:ShowData.Controllers.ProjectV2Controller.GetProjects">
             <summary>
             Get list of ShowData model
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ShowData.Controllers.DataOverviewController.GetDataOverview(System.Int32)">
+        <member name="M:ShowData.Controllers.taskController.Gettask(System.Int32)">
             <summary>
-            Get individual DataOverview
+            Get individual task
             </summary>
-            <param name="dataOverviewId">Id of specific DataOverview</param>
+            <param name="taskId">Id of specific task</param>
             <returns></returns>
         </member>
-        <member name="M:ShowData.Controllers.DataOverviewController.CreateDataOverview(ShowData.Model.DTO.DataOverviewCreateDto)">
+        <member name="M:ShowData.Controllers.taskController.Createtask(ShowData.Model.DTO.taskUpdateDto)">
             <summary>
-            Creates a DataOverview
+            Creates a task
             </summary>
-            <param name="dataOverviewDto">Params requires to create DataOverview</param>
+            <param name="taskDto">Params requires to create task</param>
             <returns></returns>
         </member>
-        <member name="M:ShowData.Controllers.DataOverviewController.UpdateDataOverview(System.Int32,ShowData.Model.DTO.DataOverviewUpdateDto)">
+        <member name="M:ShowData.Controllers.taskController.Updatetask(System.Int32,ShowData.Model.DTO.taskUpdateDto)">
             <summary>
-            Updates DataOverview in database.
+            Updates task in database
             </summary>
-            <param name="dataOverviewId">Id of specific DataOverview to update</param>
-            <param name="dataOverviewDto">Required params to build DataOverview</param>
+            <param name="taskId">Id of specific task to update</param>
+            <param name="taskDto">Required params to build task</param>
             <returns></returns>
         </member>
-        <member name="M:ShowData.Controllers.DataOverviewController.DeleteDataOverview(System.Int32)">
+        <member name="M:ShowData.Controllers.taskController.Deletetask(System.Int32)">
             <summary>
             Deletes DataOverview from database
             </summary>
-            <param name="dataOverviewId">Id of DataOverview to delete</param>
-            <returns></returns>
-        </member>
-        <member name="M:ShowData.Controllers.DataOverviewV2Controller.GetDataOverviews">
-            <summary>
-            Get list of ShowData model
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ShowData.Controllers.ShowModelController.GetShowModels">
-            <summary>
-            Get list of ShowData model
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ShowData.Controllers.ShowModelController.GetShowModel(System.Int32)">
-            <summary>
-            Get individual ShowModel
-            </summary>
-            <param name="showModelId">Id of specific ShowModel</param>
-            <returns></returns>
-        </member>
-        <member name="M:ShowData.Controllers.ShowModelController.CreateShowModel(ShowData.Model.DTO.ShowModelUpdateDto)">
-            <summary>
-            Creates a ShowModel
-            </summary>
-            <param name="showModelDto">Params requires to create ShowModel</param>
-            <returns></returns>
-        </member>
-        <member name="M:ShowData.Controllers.ShowModelController.UpdateShowModel(System.Int32,ShowData.Model.DTO.ShowModelUpdateDto)">
-            <summary>
-            Updates ShowModel in database
-            </summary>
-            <param name="showModelId">Id of specific ShowModel to update</param>
-            <param name="showModelDto">Required params to build ShowModel</param>
-            <returns></returns>
-        </member>
-        <member name="M:ShowData.Controllers.ShowModelController.DeleteShowModel(System.Int32)">
-            <summary>
-            Deletes DataOverview from database
-            </summary>
-            <param name="showModelId">Id of DataOverview to delete</param>
+            <param name="taskId">Id of DataOverview to delete</param>
             <returns></returns>
         </member>
         <member name="M:ShowData.Controllers.UserController.Authenticate(ShowData.Model.AuthenticationDetails)">

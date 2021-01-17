@@ -15,41 +15,41 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ShowDataWebApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+                        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarColor02">
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         @if (httpAccessor.HttpContext.Session.GetString("ShowDataToken") != null &&
-                        httpAccessor.HttpContext.Session.GetString("ShowDataToken").ToString().Length > 0)
+                       httpAccessor.HttpContext.Session.GetString("ShowDataToken").ToString().Length > 0)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="DataOverview" asp-action="Index">Data overview</a>
+                                <a class="nav-link" asp-controller="Project" asp-action="Index">Projects</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="ShowModel" asp-action="Index">Show Model</a>
+                                <a class="nav-link" asp-controller="task" asp-action="Index">Tasks</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Logout">Logout</a>
+                                <a class="nav-link" asp-controller="Home" asp-action="Logout">Logout</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Login">Login</a>
+                                <a class="nav-link" asp-controller="Home" asp-action="Login">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Register">Register</a>
+                                <a class="nav-link" asp-controller="Home" asp-action="Register">Register</a>
                             </li>
                         }
                     </ul>
@@ -59,6 +59,20 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (TempData["loggedIn"] != null)
+            {
+                <div class="alert alert-dismissible alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <a href="#" class="alert-link">@TempData["loggedIn"]</a>.
+                </div>
+            }
+            @if (TempData["loggedOut"] != null)
+            {
+                <div class="alert alert-dismissible alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <a href="#" class="alert-link">@TempData["loggedOut"]</a>.
+                </div>
+            }
             @RenderBody()
         </main>
     </div>
