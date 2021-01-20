@@ -101,6 +101,7 @@ namespace ShowDataWebApp.Controllers
                 bool respon;
                 if (project.Id == 0)
                 {
+                    project.TasksIncluded = 0;
                     respon = await _projectRepo.CreateAsync(StaticUrlBase.ProjectApiUrl,
                         project,
                         HttpContext.Session.GetString("ShowDataToken"));

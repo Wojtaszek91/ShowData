@@ -62,20 +62,42 @@ namespace ShowDataWebApp.Controllers
             });
         }*/
 
-        [HttpDelete]
         public async Task<IActionResult> Deletetask(int id)
         {
-            var state = await _taskRepo.DeleteAsync(StaticUrlBase.taskApiUrl, id,
+            var token = HttpContext.Session.GetString("ShowDataToken");
+            var task = await _taskRepo.GetAsync(StaticUrlBase.taskApiUrl, id, token);
+            var taskDeleteState = await _taskRepo.DeleteAsync(StaticUrlBase.taskApiUrl, id,
                 HttpContext.Session.GetString("ShowDataToken"));
-            if (state)
-                return Json(new { success = true, message = "Object has been deleted." });
-            else return Json(new { success = false, message = "Object has been NOT deleted" });
+            if (taskDeleteState)
+            {
+                var project = await _projectRepo.GetAsync(StaticUrlBase.ProjectApiUrl, task.ProjectId, token);
+                project.TasksIncluded--;
+                var projectUpdateState = await _projectRepo.UpdateAsync(StaticUrlBase.ProjectApiUrl + task.ProjectId, project, token);
+                if (projectUpdateState)
+                {
+                return RedirectToAction(nameof(TasksView), new { id = task.ProjectId });
+                }
+                else
+                {
+                    return RedirectToAction(nameof(TasksView), new { id = task.ProjectId });
+                }
+
+            }
+            else
+            {
+                return RedirectToAction(nameof(TasksView), new { id = task.ProjectId });
+            }
         }
 
+        /// <summary>
+        /// Returns view with model to create or update task.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Upserttask(int? id)
         {
-            IEnumerable<Project> projectsList = await _projectRepo.GetAllAsync(StaticUrlBase.ProjectApiUrl,
-                HttpContext.Session.GetString("ShowDataToken"));
+            var token = HttpContext.Session.GetString("ShowDataToken");
+            IEnumerable<Project> projectsList = await _projectRepo.GetAllAsync(StaticUrlBase.ProjectApiUrl, token);
 
             UpsertTaskVM taskVM = new UpsertTaskVM()
             {
@@ -94,8 +116,7 @@ namespace ShowDataWebApp.Controllers
             }
 
             taskVM.task = await _taskRepo.GetAsync(StaticUrlBase.taskApiUrl,
-                id.GetValueOrDefault(),
-                HttpContext.Session.GetString("ShowDataToken"));
+                id.GetValueOrDefault(), token);
 
             if (taskVM == null)
                 return NotFound();
@@ -108,8 +129,13 @@ namespace ShowDataWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upserttask(UpsertTaskVM taskVM)
         {
+            var token = HttpContext.Session.GetString("ShowDataToken");
+
             if (ModelState.IsValid)
             {
+                bool didUpdateProject = true; // true because no need to update project if task didnt change parent.
+                bool taskUpsertResponse;
+
                 var files = HttpContext.Request.Form.Files;
                 if (files.Count > 0)
                 {
@@ -126,28 +152,48 @@ namespace ShowDataWebApp.Controllers
                 }
                 else if (taskVM.task.Id != 0)
                 {
-                    var dbtask = await _taskRepo.GetAsync(StaticUrlBase.ProjectApiUrl,
-                        taskVM.task.Id,
-                        HttpContext.Session.GetString("ShowDataToken"));
+                    var dbtask = await _taskRepo.GetAsync(StaticUrlBase.taskApiUrl, taskVM.task.Id, token);
                     if (dbtask != null)
                     {
                         taskVM.task.Image = dbtask.Image;
                     }
+                    if(dbtask.ProjectId != taskVM.task.ProjectId)
+                    {
+                        var oldDbProject = await _projectRepo.GetAsync(StaticUrlBase.ProjectApiUrl, dbtask.ProjectId, token);
+                        var newDbProject = await _projectRepo.GetAsync(StaticUrlBase.ProjectApiUrl, taskVM.task.ProjectId, token);
+                        if (newDbProject != null && oldDbProject != null)
+                        {
+                            newDbProject.TasksIncluded++;
+                            oldDbProject.TasksIncluded--;
+                            didUpdateProject = await _projectRepo.UpdateAsync(StaticUrlBase.ProjectApiUrl + dbtask.ProjectId, oldDbProject, token);
+                            didUpdateProject = await _projectRepo.UpdateAsync(StaticUrlBase.ProjectApiUrl + taskVM.task.ProjectId, newDbProject, token);
+                        }
+                        else
+                        {
+                            didUpdateProject = false;
+                        }
+                    }
                 }
-                bool respon;
                 if (taskVM.task.Id == 0)
                 {
-                    respon = await _taskRepo.CreateAsync(StaticUrlBase.taskApiUrl,
-                        taskVM.task,
-                        HttpContext.Session.GetString("ShowDataToken"));
+                    taskVM.task.isAvailsable = true;
+                    var dbProject = await _projectRepo.GetAsync(StaticUrlBase.ProjectApiUrl, taskVM.task.ProjectId, token);
+                    if (dbProject != null)
+                    {
+                        dbProject.TasksIncluded++;
+                        didUpdateProject = await _projectRepo.UpdateAsync(StaticUrlBase.ProjectApiUrl + taskVM.task.ProjectId, dbProject, token);
+                    }
+                    else
+                    {
+                        didUpdateProject = false;
+                    }
+                    taskUpsertResponse = await _taskRepo.CreateAsync(StaticUrlBase.taskApiUrl, taskVM.task, token);
                 }
                 else
                 {
-                    respon = await _taskRepo.UpdateAsync(StaticUrlBase.taskApiUrl + taskVM.task.Id,
-                        taskVM.task,
-                        HttpContext.Session.GetString("ShowDataToken"));
+                    taskUpsertResponse = await _taskRepo.UpdateAsync(StaticUrlBase.taskApiUrl + taskVM.task.Id, taskVM.task, token);
                 }
-                if (respon)
+                if (taskUpsertResponse && didUpdateProject)
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -155,17 +201,16 @@ namespace ShowDataWebApp.Controllers
             }
             else
             {
-                foreach (var modelState in ViewData.ModelState.Values)
+/*                foreach (var modelState in ViewData.ModelState.Values)
                 {
                     foreach (var error in modelState.Errors)
                     {
                         Console.WriteLine(error);
                     }
-                }
-                IEnumerable<Project> DOlist = await _projectRepo.GetAllAsync(StaticUrlBase.ProjectApiUrl,
-                    HttpContext.Session.GetString("ShowDataToken"));
+                }*/
+                IEnumerable<Project> projectsList = await _projectRepo.GetAllAsync(StaticUrlBase.ProjectApiUrl, token);
 
-                taskVM.ProjectsList = DOlist.Select(e => new SelectListItem
+                taskVM.ProjectsList = projectsList.Select(e => new SelectListItem
                 {
                     Text = e.Title,
                     Value = e.Id.ToString()

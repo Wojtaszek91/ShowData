@@ -42,29 +42,36 @@
 
     @foreach (var task in Model.TasksList)
     {
-        <div class="jumbotron">
-            <h2 class="display-4">@task.DisplayName</h2>
-            @if (task.TaskDescription.Length == 0)
-            {
-                <p class="lead">No available description.</p>
-            }
-            else
-            {
-                <p class="lead">@task.TaskDescription</p>
-            }
-            <hr class="my-4">
-            <p>Deadline : @task.DisplayDate.ToShortDateString()</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Report finish task !</a>
-                @if (httpAccessor.HttpContext.User.IsInRole("Admin"))
+        if (task.isAvailsable)
+        {
+            <div class="jumbotron">
+                <h2 class="display-4">@task.DisplayName</h2>
+                @if (task.TaskDescription.Length == 0)
                 {
-                    <a href="/task/Upserttask/@task.Id" class='btn btn-success text-white'
-                       style='cursor:pointer;'> <i class='far fa-edit'></i></a>
-
-                    <a href="/task/Deletetask/@task.Id") class='btn btn-danger text-white'
-                       style='cursor:pointer;'> <i class='far fa-trash-alt'></i></a>
+                    <p class="lead">No available description.</p>
                 }
-            </p>
-        </div>
+                else
+                {
+                    <p class="lead">@task.TaskDescription</p>
+                }
+                <hr class="my-4">
+                <p>Deadline : @task.DisplayDate.ToShortDateString()</p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="#" role="button">Report finish task !</a>
+                    <asp:Button id="Button1"
+                                Text="Click here for greeting..."
+                                OnClick="GreetingBtn_Click"
+                                runat="server" />
+                    @if (httpAccessor.HttpContext.User.IsInRole("Admin"))
+                    {
+                        <a href="/task/Upserttask/@task.Id" class='btn btn-success text-white'
+                           style='cursor:pointer;'> <i class='far fa-edit'></i></a>
+
+                        <a href="/task/Deletetask/@task.Id" ) class='btn btn-danger text-white'
+                           style='cursor:pointer;'> <i class='far fa-trash-alt'></i></a>
+                    }
+                </p>
+            </div>
+        }
     }
 </div>
