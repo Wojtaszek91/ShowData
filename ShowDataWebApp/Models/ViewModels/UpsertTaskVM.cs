@@ -9,6 +9,7 @@ namespace ShowDataWebApp.Models.ViewModels
     public class UpsertTaskVM
     {
         public IEnumerable<SelectListItem> ProjectsList { get; set; }
+        public IEnumerable<SelectListItem> UsersList { get; set; }
         public task task { get; set; }
     }
 }

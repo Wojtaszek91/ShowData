@@ -53,5 +53,14 @@ namespace ShowData.Controllers
             else
                 return BadRequest(new { message = "Username is taken." });
         }
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(ICollection<string>))]
+        public IActionResult GetUserNames()
+        {
+            var usernamesList = _userRepository.GetUsernames();
+            return Ok(usernamesList);
+
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace ShowDataWebApp.Repository.IRepository
     {
         Task<User> LoginAsync(string url, User user);
         Task<bool> RegisterAsync(string url, User user);
+        Task<IEnumerable<string>> GetUsernames(string url, string token);
     }
 }

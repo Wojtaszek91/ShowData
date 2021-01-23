@@ -11,6 +11,7 @@ namespace ShowData.Repository.IRepository
         bool IsUserNameTaken(string userName);
         User RegisterUser(string userName, string password);
         User AuthenticateUser(string userName, string password);
+        ICollection<string> GetUsernames();
         
     }
 }

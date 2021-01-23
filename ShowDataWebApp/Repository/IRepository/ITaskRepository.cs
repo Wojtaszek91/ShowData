@@ -9,5 +9,6 @@ namespace ShowDataWebApp.Repository.IRepository
     public interface ItaskRepository : IRepository<task>
     {
         Task<IEnumerable<task>> GetAllProjectTasks(string url, string id, bool isProject, string token);
+        Task<bool> ReportTaskFinish(string url, int taskId, string token);
     }
 }

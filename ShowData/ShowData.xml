@@ -93,5 +93,10 @@
             <param name="userName">String user name to check.</param>
             <returns>Bool depended if user name is taken or not.</returns>
         </member>
+        <member name="M:ShowData.Repository.UserRepository.GetUsernames">
+            <summary>
+            Gets all usernames sorted alphabeticaly
+            </summary>
+        </member>
     </members>
 </doc>

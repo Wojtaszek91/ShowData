@@ -9,6 +9,7 @@ namespace ShowDataWebApp
     {
         public static string BaseApiUrl = "https://localhost:44345/";
         public static string taskApiUrl = BaseApiUrl + "api/v1/task/";
+        public static string taskV2ApiUrl = BaseApiUrl + "api/v2/task/";
         public static string ProjectApiUrl = BaseApiUrl + "api/v1/Projects/";
         public static string UserApiUrl = BaseApiUrl + "api/v1/Users/";
     }

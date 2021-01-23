@@ -4,6 +4,7 @@ using ShowData.Data;
 using ShowData.Model;
 using ShowData.Repository.IRepository;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -80,6 +81,21 @@ namespace ShowData.Repository
             newUser.Password = "";
 
             return newUser;
+        }
+
+        /// <summary>
+        /// Gets all usernames sorted alphabeticaly
+        /// </summary>
+        public ICollection<string> GetUsernames()
+        {
+            var usersList = _context.Users.OrderBy(a => a.Username).ToList();
+            List<string> userNames = new List<string>();
+            foreach(var user in usersList)
+            {
+                userNames.Add(user.Username);
+            }
+
+            return userNames;
         }
     }
 }

@@ -24,6 +24,12 @@ namespace ShowDataWebApp.Repository
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url + projectId + "/" + isProject);
             var client = _httpFactory.CreateClient();
+
+            if(token == null)
+            {
+                token = "";
+            }
+
             if (token.Length > 0)
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -39,5 +45,32 @@ namespace ShowDataWebApp.Repository
             else
                 return null;
         }
+
+        public async Task<bool> ReportTaskFinish(string url, int taskId, string token = "")
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, url + taskId.ToString());
+            var client = _httpFactory.CreateClient();
+
+            if (token == null)
+            {
+                token = "";
+            }
+
+            if (token.Length > 0)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            HttpResponseMessage respone = await client.SendAsync(request);
+
+            if (respone.StatusCode == HttpStatusCode.OK)
+            {
+                var responeString = await respone.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<bool>(responeString);
+            }
+            else
+                return false;
+        }
     }
 }
+

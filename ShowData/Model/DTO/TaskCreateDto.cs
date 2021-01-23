@@ -17,6 +17,9 @@ namespace ShowData.Model.DTO
 
         public bool isAvailsable { get; set; }
 
+        [Required]
+        public string UserForTask { get; set; }
+
         public byte[] Image { get; set; }
 
         [Required]

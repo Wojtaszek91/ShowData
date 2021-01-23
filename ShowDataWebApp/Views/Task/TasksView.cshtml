@@ -7,8 +7,20 @@
 }
 <div class="p-5" style="border-radius:20px;">
 
-
-
+    @if (TempData["finishTask"] != null)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <a href="#" class="alert-link">@TempData["finishTask"]</a>.
+        </div>
+    }
+    @if (TempData["reportError"] != null)
+    {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <a href="#" class="alert-link">@TempData["reportError"]</a>
+    </div>
+    }
 
     <div class="card mb-3">
         <h3 class="card-header">Project: @Model.Project.Title</h3>
@@ -56,12 +68,16 @@
                 }
                 <hr class="my-4">
                 <p>Deadline : @task.DisplayDate.ToShortDateString()</p>
+                <p>User : @task.UserForTask</p>
                 <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="#" role="button">Report finish task !</a>
-                    <asp:Button id="Button1"
-                                Text="Click here for greeting..."
-                                OnClick="GreetingBtn_Click"
-                                runat="server" />
+                    <a asp-controller="Task"
+                       asp-action="ReportFinishTask"
+                       asp-route-taskId="@task.Id"
+                       asp-route-projectId="@task.ProjectId"
+                       class="btn btn-primary btn-lg"
+                       role="button">
+                    Report finish task !</a>
+
                     @if (httpAccessor.HttpContext.User.IsInRole("Admin"))
                     {
                         <a href="/task/Upserttask/@task.Id" class='btn btn-success text-white'

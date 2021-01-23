@@ -17,11 +17,13 @@ namespace ShowDataWebApp.Controllers
     {
         public readonly IProjectRepository _projectRepo;
         public readonly ItaskRepository _taskRepo;
+        public readonly IUserAccountRepository _userRepo;
 
-        public taskController(IProjectRepository projectRepo, ItaskRepository taskRepo)
+        public taskController(IProjectRepository projectRepo, ItaskRepository taskRepo, IUserAccountRepository userRepo)
         {
             _projectRepo = projectRepo;
             _taskRepo = taskRepo;
+            _userRepo = userRepo;
         }
 
         public IActionResult Index(int? id)
@@ -34,6 +36,26 @@ namespace ShowDataWebApp.Controllers
             {
                 return View(new IndexTaskViewModel { PojectId = (int)id });
             }
+        }
+
+        [Route("task/ReportFinishTask/{taskId}/{projectId}")]
+        public async Task<IActionResult> ReportFinishTask(int taskId, string projectId)
+        {           
+            var token = HttpContext.Session.GetString("ShowDataToken");
+
+            var reportResponse = await _taskRepo.ReportTaskFinish(StaticUrlBase.taskV2ApiUrl, taskId, token);
+
+            if (reportResponse)
+            {
+                TempData["finishTask"] = "Task with id : " + taskId + " has been reported as finish";
+                return RedirectToAction(nameof(TasksView), new { id = projectId });
+            }
+            else
+            {
+                TempData["reportError"] = "Coudn't report finish task with id " + taskId;
+                return RedirectToAction(nameof(TasksView), new { id = projectId });
+            }
+
         }
 
         public async Task<IActionResult> TasksView(int id)
@@ -98,13 +120,18 @@ namespace ShowDataWebApp.Controllers
         {
             var token = HttpContext.Session.GetString("ShowDataToken");
             IEnumerable<Project> projectsList = await _projectRepo.GetAllAsync(StaticUrlBase.ProjectApiUrl, token);
+            IEnumerable<string> usernameList = await _userRepo.GetUsernames(StaticUrlBase.UserApiUrl, token);
 
             UpsertTaskVM taskVM = new UpsertTaskVM()
             {
-                ProjectsList = projectsList.Select(e => new SelectListItem
+                ProjectsList = projectsList.Select(p => new SelectListItem
                 {
-                    Text = e.Title,
-                    Value = e.Id.ToString()
+                    Text = p.Title,
+                    Value = p.Id.ToString()
+                }),
+                UsersList = usernameList.Select(u => new SelectListItem {
+                    Text = u,
+                    Value = u
                 })
             };
             taskVM.task = new task();
@@ -209,12 +236,20 @@ namespace ShowDataWebApp.Controllers
                     }
                 }*/
                 IEnumerable<Project> projectsList = await _projectRepo.GetAllAsync(StaticUrlBase.ProjectApiUrl, token);
+                IEnumerable<string> usernameList = await _userRepo.GetUsernames(StaticUrlBase.UserApiUrl, token);
+
 
                 taskVM.ProjectsList = projectsList.Select(e => new SelectListItem
                 {
                     Text = e.Title,
                     Value = e.Id.ToString()
                 });
+                taskVM.UsersList = usernameList.Select(u => new SelectListItem
+                {
+                    Text = u,
+                    Value = u
+                });
+
                 return View(taskVM);
             }
         }

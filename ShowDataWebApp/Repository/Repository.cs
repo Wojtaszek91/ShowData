@@ -30,7 +30,13 @@ namespace ShowDataWebApp.Repository
                 return false;
 
             var client = _httpFactory.CreateClient();
-            if(token.Length > 0)
+
+            if (token == null)
+            {
+                token = "";
+            }
+
+            if (token.Length > 0)
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
@@ -47,6 +53,12 @@ namespace ShowDataWebApp.Repository
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, url+idOfObjToDelete);
             var client = _httpFactory.CreateClient();
+
+            if (token == null)
+            {
+                token = "";
+            }
+
             if (token.Length > 0)
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
@@ -60,10 +72,17 @@ namespace ShowDataWebApp.Repository
                 return false;
         }
 
+        
         public async Task<IEnumerable<T>> GetAllAsync(string url, string token="")
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var client = _httpFactory.CreateClient();
+
+            if (token == null)
+            {
+                token = "";
+            }
+
             if (token.Length > 0)
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -84,6 +103,12 @@ namespace ShowDataWebApp.Repository
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url + id);
             var client = _httpFactory.CreateClient();
+
+            if (token == null)
+            {
+                token = "";
+            }
+
             if (token.Length > 0)
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
@@ -111,6 +136,12 @@ namespace ShowDataWebApp.Repository
                 return false;
 
             var client = _httpFactory.CreateClient();
+
+            if (token == null)
+            {
+                token = "";
+            }
+
             if (token.Length > 0)
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);

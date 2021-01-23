@@ -21,6 +21,9 @@ namespace ShowData.Model
 
         public bool isAvailsable { get; set; }
 
+        [Required]
+        public string UserForTask { get; set; }
+
         public byte[] Image { get; set; }
 
         [Required]
