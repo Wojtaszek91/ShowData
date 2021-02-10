@@ -7,3 +7,4 @@ Solution is setup from two diffrent projects.
 First contains backend with repository to communicate with database by EntityFramework.
 Send is web app. It does contain repository to communicate with backedn and views writed by Razor Pages.
 Some view contains some communicates rendered as temp data to communicate single time after some events or errors.
+Web project is using free bootstrap theme from https://bootswatch.com/ !
