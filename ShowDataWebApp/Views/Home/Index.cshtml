@@ -1,8 +1,27 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAccessor
+
+@{
     ViewData["Title"] = "Home Page";
 }
-
+<br>
 <div class="text-center">
-    <h1 class="display-4">Welcome to a new job</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="jumbotron">
+        <h1 class="display-3">Show data application</h1>
+        <p class="lead">Its a simple application to delegate tasks to specific users.</p>
+        <hr class="my-4">
+        <p>For now you can find two types of users. Admin who can see everything and can edit every project and every task.</p>
+        <p>User who can read tasks assigned to him and report finish the task.</p>
+        <p class="lead">
+            @if (httpAccessor.HttpContext.Session.GetString("ShowDataToken") != null &&
+                httpAccessor.HttpContext.Session.GetString("ShowDataToken").ToString().Length > 0)
+            {
+                <a class="btn btn-primary btn-lg" asp-controller="Home" asp-action="Logout">Logout</a>
+            }
+            else
+            {
+                <a class="btn btn-primary btn-lg" asp-controller="Home" asp-action="Login">Login now</a>
+            }
+        </p>
+    </div>
 </div>

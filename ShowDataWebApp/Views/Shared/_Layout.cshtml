@@ -25,9 +25,6 @@
                 <div class="collapse navbar-collapse" id="navbarColor02">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         @if (httpAccessor.HttpContext.Session.GetString("ShowDataToken") != null &&
@@ -67,7 +64,7 @@
             {
                 <div class="alert alert-dismissible alert-success">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <a href="#" class="alert-link">@TempData["loggedOut"]</a>.
+                    <a href="#" class="alert-link">@TempData["loggedOut"]</a>
                 </div>
             }
             @RenderBody()

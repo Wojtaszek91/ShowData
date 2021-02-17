@@ -3,8 +3,15 @@
 @inject IHttpContextAccessor httpAccessor
 @*Need Microsoft.AspNetCore.http to get @inject httpaccessor *@
 <div class="p-4" style="border-radius:20px;">
+    @if (TempData["DELETIONFAIL"] != null)
+    {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Oops...</strong> <a href="#" class="alert-link">@TempData["DELETIONFAIL"]</a>
+        </div>
+    }
     <div class="row">
-        <div class="col-6">          
+        <div class="col-6">
             <h2 class="text-primary">Projects List :</h2>
         </div>
         @if (httpAccessor.HttpContext.User.IsInRole("Admin"))
@@ -13,11 +20,11 @@
                 <a asp-action="UpsertProject" class="btn btn-primary text-white"><i class="fas fa-plus"></i> &nbsp; Create Project</a>
             </div>
         }
-        </div>
+    </div>
     <br />
     <br />
-        @foreach (var project in Model.ProjectsList)
-        {
+    @foreach (var project in Model.ProjectsList)
+    {
         <div class="text-center">
             <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
                 <div class="card-header font-weight-bold">
@@ -25,19 +32,20 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text">@project.Description</p>
-                        <h6 class="card-title">Open tasks : @project.TasksIncluded</h6>
-                        @if (httpAccessor.HttpContext.User.IsInRole("Admin"))
-                        {
-                            <a href="/Project/UpsertProject/@project.Id" class='btn btn-success text-white'
-                               style='cursor:pointer;'> <i class='far fa-edit'></i></a>
-                            <a onclick=Delete("/Project/DeleteProject/@project.Id") class='btn btn-danger text-white'
-                               style='cursor:pointer;'> <i class='far fa-trash-alt'></i></a>
-                        }
+                    <h6 class="card-title">Open tasks : @project.TasksIncluded</h6>
+                    @if (httpAccessor.HttpContext.User.IsInRole("Admin"))
+                    {
+                        <a href="/Project/UpsertProject/@project.Id" class='btn btn-success text-white'
+                           style='cursor:pointer;'> <i class='far fa-edit'></i></a>
+
+                        <a asp-action="DeleteProject" asp-route-id="@project.Id" class='btn btn-danger text-white'
+                           style='cursor:pointer;'> <i class='far fa-trash-alt'></i></a>
+                    }
                 </div>
             </div>
         </div>
-        }
-    </div>
+    }
+</div>
 
 
 

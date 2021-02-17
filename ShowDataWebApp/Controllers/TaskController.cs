@@ -10,9 +10,11 @@ using ShowDataWebApp.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShowDataWebApp.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShowDataWebApp.Controllers
 {
+    [Authorize]
     public class taskController : Controller
     {
         public readonly IProjectRepository _projectRepo;
@@ -222,7 +224,7 @@ namespace ShowDataWebApp.Controllers
                 }
                 if (taskUpsertResponse && didUpdateProject)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(TasksView), new { id = taskVM.task.ProjectId});
                 }
                 else return View(taskVM);
             }

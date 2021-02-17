@@ -9,9 +9,11 @@ using ShowDataWebApp.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ShowDataWebApp.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShowDataWebApp.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
         public readonly IProjectRepository _projectRepo;
@@ -31,8 +33,6 @@ namespace ShowDataWebApp.Controllers
             };
 
                 return View(projectsVM);
-
-
         }
 
         public async Task<IActionResult> GetProjects()
@@ -42,14 +42,22 @@ namespace ShowDataWebApp.Controllers
                 HttpContext.Session.GetString("ShowDataToken")) });
         }
 
-        [HttpDelete]
+        /*[HttpDelete]*/
         public async Task<IActionResult> DeleteProject(int id)
         {
             var state = await _projectRepo.DeleteAsync(StaticUrlBase.ProjectApiUrl, id,
                 HttpContext.Session.GetString("ShowDataToken"));
             if (state)
-                return Json(new { success = true, message = "Object has been deleted." });
-            else return Json(new { success = false, message = "Object has been NOT deleted" });
+            {
+                return RedirectToAction(nameof(Index));
+/*                return Json(new { success = true, message = "Object has been deleted." });*/
+            }
+            else
+            {
+                TempData["DELETIONFAIL"] = "Object has been NOT deleted";
+                return RedirectToAction(nameof(Index));
+                /*                return Json(new { success = false, message = "Object has been NOT deleted" });*/
+            }
         }
 
         public async Task<IActionResult> UpsertProject(int? id)
