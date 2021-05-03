@@ -161,7 +161,7 @@ namespace ShowData.Controllers
         ///// Deletes task from database
         ///// </summary>
         ///// <param name="taskId">Id of task to delete</param>
-        ///// <param name="taskDto">Required params of task what should be deleted</param>
+        ///// <param name="taskDto">Required params of task witch next will be deleted</param>
         ///// <returns></returns>
         //[HttpDelete("{taskId:int}", Name = "Deletetask")]
         //public IActionResult Deletetask(int taskId, [FromBody] taskDto taskDto)
